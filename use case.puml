@@ -1,0 +1,32 @@
+@startuml
+
+    rectangle "Store app" {
+
+        'Creating actors
+        actor loggedInUser
+        actor loggedOutUser
+        actor admin
+
+        'Adding extensions
+        loggedOutUser <|-- loggedInUser
+        loggedInUser <|-- admin
+
+        'Creating use cases of logged out user
+        loggedOutUser --right-> (Login)
+        (Login) <. (Register): includes
+
+        'Creating use cases of logged in user
+        loggedInUser --right-> (Logout)
+        loggedInUser --right-> (Search products)
+        loggedInUser --left-> (View my history)
+        loggedInUser --left-> (View my profile)
+        (Search products) .down.> (View product): extends
+        (View product) .down.> (Buy product): extends
+
+        'Creating use cases of admin
+        admin --down-> (Add product)
+        admin --down-> (Remove product)
+        admin --down-> (Edit product)
+    }
+
+@enduml
